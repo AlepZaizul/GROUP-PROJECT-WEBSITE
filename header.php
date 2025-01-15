@@ -23,7 +23,7 @@
                                 <a class="me-3" href=""><i class="fab fa-twitter"></i></a>
                                 <a class="me-3" href=""><i class="fab fa-linkedin-in"></i></a>
                                 <a class="btn btn-primary" href="login.php">Sign In<i class=""></i></a>&nbsp
-                                <a class="btn btn-primary" href="">Sign Up<i class=""></i></a>
+                                <a class="btn btn-primary" href="register.php">Sign Up<i class=""></i></a>
                             </div>
                         </div>
                     </div>
