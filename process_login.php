@@ -1,41 +1,43 @@
 <?php
-session_start(); // Start the session to manage user login
+session_start();
 
-// Include database connection
 include('db_connection.php');
 
-// Capture form data
 $username = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
 
-// Simple validation: Check if fields are empty
 if (empty($username) || empty($password)) {
     echo "<h1>Please fill in both fields.</h1>";
     exit;
 }
 
-// Use prepared statements to avoid SQL injection
-$sql = "SELECT user_id, username, password FROM users WHERE username = ?";
+$sql = "SELECT user_id, username, role, password FROM users WHERE username = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $username);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Check if the username exists
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
 
-    // Verify password using password_verify() (assuming password is hashed in the database)
-    if (password_verify($password, $user['password'])) {
-        // Store user data in session
-        $_SESSION['user_id'] = $user['user_id'];
-        $_SESSION['username'] = $user['username'];
+    if (isset($user['password'])) { 
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role']; 
 
-        // Redirect to the homepage (index.php)
-        header('Location: index.php');
-        exit;
+            if ($user['role'] == 'admin') {
+                header('Location: Admin/admin_dashboard.php');
+            } else {
+                header('Location: index.php'); 
+            }
+            exit;
+        } else {
+            echo "<h1>Invalid username or password</h1>";
+            echo '<a href="login.php">Go back to login</a>';
+        }
     } else {
-        echo "<h1>Invalid username or password</h1>";
+        echo "<h1>Error: Password hash not found for this user.</h1>"; 
         echo '<a href="login.php">Go back to login</a>';
     }
 } else {
@@ -43,6 +45,6 @@ if ($result->num_rows > 0) {
     echo '<a href="login.php">Go back to login</a>';
 }
 
-// Close connection
+$stmt->close();
 $conn->close();
 ?>

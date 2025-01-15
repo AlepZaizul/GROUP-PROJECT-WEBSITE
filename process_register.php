@@ -34,21 +34,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt_username->bind_param("s", $username);
     $stmt_email->bind_param("s", $email);
 
+    // Execute the username query
     $stmt_username->execute();
-    $stmt_email->execute();
-
     $result_username = $stmt_username->get_result();
-    $result_email = $stmt_email->get_result();
 
     if (mysqli_num_rows($result_username) > 0) {
         echo "Username is already taken!";
         exit;
     }
 
+    // Close the result set before executing the next query
+    $result_username->free();
+
+    // Execute the email query
+    $stmt_email->execute();
+    $result_email = $stmt_email->get_result();
+
     if (mysqli_num_rows($result_email) > 0) {
         echo "Email is already registered!";
         exit;
     }
+
+    // Close the result set before continuing
+    $result_email->free();
 
     // Insert the user data into the database
     $insert_sql = "INSERT INTO users (username, email, full_name, phone, password, address, role) 
