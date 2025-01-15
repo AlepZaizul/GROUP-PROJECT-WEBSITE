@@ -23,6 +23,10 @@
                 <input type="text" id="full_name" name="full_name" placeholder="Enter your full name" required>
             </div>
             <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" name="phone" placeholder="Enter your phone number" required>
+            </div>
+            <div class="form-group">
                 <label for="dob">Date of Birth</label>
                 <input type="date" id="dob" name="dob" required>
             </div>

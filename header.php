@@ -18,13 +18,20 @@
                             </div>
                         </div>
                         <div class="col-lg-5 px-5 text-end">
-                            <div class="d-inline-flex align-items-center py-2">
-                                <a class="me-3" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="me-3" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="me-3" href=""><i class="fab fa-linkedin-in"></i></a>
-                                <a class="btn btn-primary" href="login.php">Sign In<i class=""></i></a>&nbsp
-                                <a class="btn btn-primary" href="register.php">Sign Up<i class=""></i></a>
+
+                            <div class="d-inline-flex align-items-center py-2">            
+                                <?php if (isset($_SESSION['username'])): ?>
+                                <!-- If user is logged in -->
+                                    <a class="me-3">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></a>
+                                    <a class="me-3" href="setting.php"><i class="fas fa-cog"></i></a>
+                                    <a class="btn btn-primary" href="logout.php">Log Out<i class=""></i></a>
+                                <?php else: ?>
+                                <!-- If user is not logged in -->
+                                    <a class="btn btn-primary" href="login.php">Sign In<i class=""></i></a>&nbsp
+                                    <a class="btn btn-primary" href="register.php">Sign Up<i class=""></i></a>
+                                <?php endif; ?>
                             </div>
+
                         </div>
                     </div>
                     <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
