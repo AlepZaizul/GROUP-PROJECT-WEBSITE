@@ -59,11 +59,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result_email->free();
 
     // Insert the user data into the database
-    $insert_sql = "INSERT INTO users (username, email, full_name, phone, password, address, role) 
-                   VALUES (?, ?, ?, ?, ?, ?, 'user')";
+    $insert_sql = "INSERT INTO users (username, email, full_name, phone, password, address, state, role) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, 'user')";
 
     $stmt_insert = $conn->prepare($insert_sql);
-    $stmt_insert->bind_param("ssssss", $username, $email, $full_name, $phone, $hashed_password, $address);
+    $stmt_insert->bind_param("ssssssss", $username, $email, $full_name, $phone, $hashed_password, $address, $state);
 
     if ($stmt_insert->execute()) {
         echo "Registration successful!";

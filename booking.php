@@ -111,67 +111,75 @@ if ($room_id > 0) {
                     </div>
                     <div class="col-lg-6">
                         <div class="wow fadeInUp" data-wow-delay="0.2s">
-                            <form>
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" id="name" placeholder="Your Name" 
-                                                   value="<?php echo htmlspecialchars($user_details['full_name']); ?>">
-                                            <label for="name">Your Name</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="email" class="form-control" id="email" placeholder="Your Email" 
-                                                   value="<?php echo htmlspecialchars($user_details['email']); ?>">
-                                            <label for="email">Your Email</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating date" id="date3" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input" id="checkin" placeholder="Check In" data-target="#date3" data-toggle="datetimepicker" />
-                                            <label for="checkin">Check In</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating date" id="date4" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input" id="checkout" placeholder="Check Out" data-target="#date4" data-toggle="datetimepicker" />
-                                            <label for="checkout">Check Out</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <select class="form-select" id="select1">
-                                                <?php if ($room_details): ?>
-                                                    <?php for ($i = 1; $i <= $room_details['room_capacity']; $i++): ?>
-                                                        <option value="<?php echo $i; ?>"><?php echo $i; ?> Adult</option>
-                                                    <?php endfor; ?>
-                                                <?php endif; ?>
-                                            </select>
-                                            <label for="select1">Select Adult</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <select class="form-select" id="select2">
-                                                <option value="0">1 Child</option>
-                                                <option value="1">2 Child</option>
-                                                <option value="2">3 Child</option>
-                                            </select>
-                                            <label for="select2">Select Child</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-floating">
-                                            <textarea class="form-control" placeholder="Special Request" id="message" style="height: 100px"></textarea>
-                                            <label for="message">Special Request</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-primary w-100 py-3" type="submit">Book Now</button>
+                        <form action="book_confirm.php" method="POST">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="name" placeholder="Your Name" 
+                                            value="<?php echo htmlspecialchars($user_details['full_name']); ?>" name="name">
+                                        <label for="name">Your Name</label>
                                     </div>
                                 </div>
-                            </form>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control" id="email" placeholder="Your Email" 
+                                            value="<?php echo htmlspecialchars($user_details['email']); ?>" name="email">
+                                        <label for="email">Your Email</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating date" id="date3" data-target-input="nearest">
+                                        <input type="text" class="form-control datetimepicker-input" id="checkin" placeholder="Check In" 
+                                            data-target="#date3" data-toggle="datetimepicker" name="checkin"/>
+                                        <label for="checkin">Check In</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating date" id="date4" data-target-input="nearest">
+                                        <input type="text" class="form-control datetimepicker-input" id="checkout" placeholder="Check Out" 
+                                            data-target="#date4" data-toggle="datetimepicker" name="checkout"/>
+                                        <label for="checkout">Check Out</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="select1" name="adults">
+                                            <?php if ($room_details): ?>
+                                                <?php for ($i = 1; $i <= $room_details['room_capacity']; $i++): ?>
+                                                    <option value="<?php echo $i; ?>"><?php echo $i; ?> Adult</option>
+                                                <?php endfor; ?>
+                                            <?php endif; ?>
+                                        </select>
+                                        <label for="select1">Select Adult</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="select2" name="children">
+                                            <option value="0">1 Child</option>
+                                            <option value="1">2 Child</option>
+                                            <option value="2">3 Child</option>
+                                        </select>
+                                        <label for="select2">Select Child</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control" placeholder="Special Request" id="message" style="height: 100px" name="special_request"></textarea>
+                                        <label for="message">Special Request</label>
+                                    </div>
+                                </div>
+                                <!-- Hidden fields to pass the room details -->
+                                <input type="hidden" name="room_id" value="<?php echo $room_id; ?>">
+                                <input type="hidden" name="room_name" value="<?php echo $room_details['room_name']; ?>">
+                                <input type="hidden" name="room_price" value="<?php echo $room_details['room_price']; ?>">
+
+                                <div class="col-12">
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Book Now</button>
+                                </div>
+                            </div>
+                        </form>
+
                         </div>
                     </div>
                 </div>
