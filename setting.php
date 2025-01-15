@@ -27,29 +27,60 @@ if ($result->num_rows == 1) {
 
 // Handle form submission for updating user information
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get updated user details from the form
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $full_name = $_POST['full_name'];
-    $phone = $_POST['phone'];
-    $state = $_POST['state'];
-    $address = $_POST['address'];
+    // Update user info
+    if (isset($_POST['update_info'])) {
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $full_name = $_POST['full_name'];
+        $phone = $_POST['phone'];
+        $state = $_POST['state'];
+        $address = $_POST['address'];
 
-    // Update the user information in the database
-    $sql_update = "UPDATE users SET username = ?, email = ?, full_name = ?, phone = ?, state = ?, address = ? WHERE user_id = ?";
-    $stmt_update = $conn->prepare($sql_update);
-    $stmt_update->bind_param('ssssssi', $username, $email, $full_name, $phone, $state, $address, $user_id);
-    $stmt_update->execute();
+        // Update the user information in the database
+        $sql_update = "UPDATE users SET username = ?, email = ?, full_name = ?, phone = ?, state = ?, address = ? WHERE user_id = ?";
+        $stmt_update = $conn->prepare($sql_update);
+        $stmt_update->bind_param('ssssssi', $username, $email, $full_name, $phone, $state, $address, $user_id);
+        $stmt_update->execute();
 
-    // Check if update was successful
-    if ($stmt_update->affected_rows > 0) {
-        // Set a success message in the session to be displayed after the page reload
-        $_SESSION['update_success'] = true;
-        // Redirect to refresh the page
-        header("Location: setting.php");
-        exit;
-    } else {
-        echo "<div class='alert alert-warning'>No changes were made.</div>";
+        // Check if update was successful
+        if ($stmt_update->affected_rows > 0) {
+            $_SESSION['update_success'] = true;
+            header("Location: setting.php");
+            exit;
+        } else {
+            echo "<div class='alert alert-warning'>No changes were made.</div>";
+        }
+    }
+
+    // Update password
+    if (isset($_POST['change_password'])) {
+        $current_password = $_POST['current_password'];
+        $new_password = $_POST['new_password'];
+        $confirm_password = $_POST['confirm_password'];
+
+        // Check if current password matches the one in the database
+        if (password_verify($current_password, $user['password'])) {
+            if ($new_password === $confirm_password) {
+                // Hash the new password
+                $hashed_new_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+                // Update the password in the database
+                $sql_update_password = "UPDATE users SET password = ? WHERE user_id = ?";
+                $stmt_update_password = $conn->prepare($sql_update_password);
+                $stmt_update_password->bind_param('si', $hashed_new_password, $user_id);
+                $stmt_update_password->execute();
+
+                if ($stmt_update_password->affected_rows > 0) {
+                    echo "<div class='alert alert-success'>Password changed successfully!</div>";
+                } else {
+                    echo "<div class='alert alert-warning'>No changes were made to the password.</div>";
+                }
+            } else {
+                echo "<div class='alert alert-danger'>New passwords do not match.</div>";
+            }
+        } else {
+            echo "<div class='alert alert-danger'>Current password is incorrect.</div>";
+        }
     }
 }
 ?>
@@ -75,12 +106,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <!-- Success Message Popup -->
                 <?php if (isset($_SESSION['update_success']) && $_SESSION['update_success']): ?>
                     <script>
-                        // Show the success message as a popup
                         alert('Your information has been updated successfully!');
                     </script>
-                    <?php unset($_SESSION['update_success']); // Clear the success message after displaying it ?>
+                    <?php unset($_SESSION['update_success']); ?>
                 <?php endif; ?>
 
+                <!-- User Information Update Form -->
                 <form action="setting.php" method="post">
                     <div class="row">
                         <div class="col-md-6">
@@ -121,8 +152,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <label for="address" class="form-label">Address</label>
                         <textarea class="form-control" id="address" name="address" rows="3" required><?php echo htmlspecialchars($user['address']); ?></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" name="update_info" class="btn btn-primary">Save Changes</button>
                 </form>
+
+                <!-- Password Change Form -->
+                <h3>Change Password</h3>
+                <form action="setting.php" method="post">
+                    <div class="mb-3">
+                        <label for="current_password" class="form-label">Current Password</label>
+                        <input type="password" class="form-control" id="current_password" name="current_password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new_password" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="new_password" name="new_password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                    </div>
+                    <button type="submit" name="change_password" class="btn btn-primary">Change Password</button>
+                </form>
+
             </div>
         </div>
 

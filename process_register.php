@@ -58,12 +58,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Close the result set before continuing
     $result_email->free();
 
+    // Set the role as 'user'
+    $role = 'user';  // This is the default role for a new user
+
     // Insert the user data into the database
     $insert_sql = "INSERT INTO users (username, email, full_name, phone, password, address, state, role) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?, 'user')";
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt_insert = $conn->prepare($insert_sql);
-    $stmt_insert->bind_param("ssssssss", $username, $email, $full_name, $phone, $hashed_password, $address, $state);
+
+    // Now bind the parameters after setting the role
+    $stmt_insert->bind_param("ssssssss", $username, $email, $full_name, $phone, $hashed_password, $address, $state, $role);
 
     if ($stmt_insert->execute()) {
         echo "Registration successful!";
@@ -76,4 +81,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Close the database connection
     mysqli_close($conn);
 }
-?>
+

@@ -30,15 +30,33 @@ $result = $conn->query($sql);
                 <div class="row g-4">
                     <?php if ($result->num_rows > 0): ?>
                         <?php while ($row = $result->fetch_assoc()): ?>
+                            <?php
+                                // Set the image for each team member based on their name
+                                $image = '';
+                                switch (strtolower($row['name'])) {
+                                    case 'muhammad muqri bin mohamad shaberi':
+                                        $image = 'muq.jpg';
+                                        break;
+                                    case 'muhammad alif bin zaizul':
+                                        $image = 'alep.jpg';
+                                        break;
+                                    case 'h m morshed riyad':
+                                        $image = 'morsyed.jpg';
+                                        break;
+                                    default:
+                                        $image = 'team-1.jpg'; // Fallback image if the name doesn't match
+                                        break;
+                                }
+
+                                // Check if the image exists in the img folder
+                                if (!file_exists("img/$image")) {
+                                    $image = 'default.jpg'; // Use default if the image doesn't exist
+                                }
+                            ?>
                             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                                 <div class="rounded shadow overflow-hidden">
                                     <div class="position-relative">
-                                        <img class="img-fluid" src="img/team-1.jpg" alt="Team Member">
-                                        <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
-                                            <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                            <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                            <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                                        </div>
+                                        <img class="img-fluid" src="img/<?php echo $image; ?>" alt="Team Member">
                                     </div>
                                     <div class="text-center p-4 mt-3">
                                         <h5 class="fw-bold mb-0"><?php echo htmlspecialchars($row['name']); ?></h5>

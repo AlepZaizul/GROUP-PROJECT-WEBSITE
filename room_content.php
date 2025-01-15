@@ -2,9 +2,9 @@
 // Include database connection file
 include 'db_connection.php'; 
 
-// Query to get room details along with bed types and counts
+// Query to get room details along with bed types, counts, and availability
 $sql = "SELECT r.room_id, r.room_name, r.room_price, r.room_image, r.room_description, 
-               r.tot_bed, r.tot_bath, rb.bed_count, a.bed_type
+               r.tot_bed, r.tot_bath, rb.bed_count, a.bed_type, r.room_availability
         FROM rooms r
         LEFT JOIN room_beds rb ON r.room_id = rb.room_id
         LEFT JOIN amenities a ON rb.bed_type_id = a.id";
@@ -38,6 +38,7 @@ $result = $conn->query($sql);
                             'room_description' => $row['room_description'],
                             'tot_bed' => $row['tot_bed'],
                             'tot_bath' => $row['tot_bath'],
+                            'room_availability' => $row['room_availability'],
                             'beds' => []
                         ];
                     }
@@ -82,8 +83,26 @@ $result = $conn->query($sql);
                                     <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small> 
                                 </div>
                                 <p class="text-body mb-3"><?php echo $room['room_description']; ?></p>
+                                <div class="d-flex mb-3">
+                                    <!-- Display room availability message -->
+                                    <small class="text-muted">
+                                        <?php 
+                                            if ($room['room_availability'] == 0) {
+                                                echo 'Sold Out';
+                                            } else {
+                                                echo $room['room_availability'] . ' room' . ($room['room_availability'] > 1 ? 's' : '') . ' available';
+                                            }
+                                        ?>
+                                    </small>
+                                </div>
                                 <div class="d-flex justify-content-between">
-                                    <a class="btn btn-sm btn-dark rounded py-2 px-4" href="<?php echo isset($_SESSION['username']) ? 'booking.php?room_id='.$room['room_id'] : 'login.php'; ?>">Book Now</a>
+                                    <?php if ($room['room_availability'] == 0): ?>
+                                        <!-- SOLD OUT -->
+                                        <a class="btn btn-sm btn-dark rounded py-2 px-4 disabled" href="#">SOLD OUT</a>
+                                    <?php else: ?>
+                                        <!-- Book Now button -->
+                                        <a class="btn btn-sm btn-dark rounded py-2 px-4" href="<?php echo isset($_SESSION['username']) ? 'booking.php?room_id='.$room['room_id'] : 'login.php'; ?>">Book Now</a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -98,4 +117,3 @@ $result = $conn->query($sql);
         </div>
     </div>
 </div>
-

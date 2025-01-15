@@ -74,7 +74,7 @@ if ($room_id > 0) {
                 <?php if ($room_details): ?>
                     <div class="row mb-5">
                         <div class="col-lg-6">
-                            <img class="img-fluid rounded" src="<?php echo $room_details['room_image']; ?>" alt="<?php echo $room_details['room_name']; ?>">
+                            <img class="img-fluid rounded" src="img/<?php echo $room_details['room_image']; ?>" alt="<?php echo $room_details['room_name']; ?>">
                         </div>
                         <div class="col-lg-6">
                             <h3><?php echo $room_details['room_name']; ?></h3>
