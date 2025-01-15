@@ -1,0 +1,161 @@
+/* Existing styles */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+}
+
+.header-left,
+.header-right {
+    display: flex;
+    gap: 10px;
+}
+
+.header-btn {
+    text-decoration: none;
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.header-btn:hover {
+    background-color: #0056b3;
+}
+
+.logout-btn {
+    background-color: #dc3545;
+}
+
+.logout-btn:hover {
+    background-color: #a71d2a;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #f8f8f8;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+a.edit {
+    background-color: #4caf50;
+}
+
+a.delete {
+    background-color: #f44336;
+}
+
+a.add {
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+}
+
+a.add:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+    font-size: 14px;
+}
+
+a.edit, a.delete {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+a.edit {
+    background-color: #4caf50;
+}
+
+a.delete {
+    background-color: #f44336;
+}
+
+td {
+    text-align: left;
+    padding: 10px;
+    vertical-align: middle;
+}
+
+/* New styles for Upload Image button */
+button[type="submit"][name="submit"] {
+    background-color: #28a745; /* Green background */
+    color: white; /* White text */
+    padding: 10px 20px; /* Padding for larger button */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Larger font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth color transition */
+}
+
+button[type="submit"][name="submit"]:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+button[type="submit"][name="submit"]:active {
+    background-color: #1e7e34; /* Even darker green when button is pressed */
+}
+
+button[type="submit"][name="submit"]:focus {
+    outline: none; /* Remove outline on focus */
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); /* Green shadow on focus */
+}

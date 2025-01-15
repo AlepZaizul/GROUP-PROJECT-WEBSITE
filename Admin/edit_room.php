@@ -1,60 +1,124 @@
 <?php
-include('db_connection.php');
-
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    
-    // Fetch room details
-    $sql = "SELECT * FROM rooms WHERE id = $id";
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-        $room = $result->fetch_assoc();
-    } else {
-        echo "Room not found!";
-        exit;
-    }
+session_start();
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../login.php");
+    exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-    $price = $_POST['price'];
-    $availability = isset($_POST['availability']) ? 1 : 0;
-    
-    // Handle photo upload
-    $photo = $room['photo'];  // Keep the existing photo by default
-    if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
-        $upload_dir = 'uploads/rooms/';
-        $photo = $upload_dir . basename($_FILES['photo']['name']);
-        move_uploaded_file($_FILES['photo']['tmp_name'], $photo);
-    }
+include '../db_connection.php'; // Include database connection
 
-    // Update the room details in the database
-    $update_sql = "UPDATE rooms SET name='$name', description='$description', price='$price', availability='$availability', photo='$photo' WHERE id=$id";
-    if ($conn->query($update_sql) === TRUE) {
-        echo "Room updated successfully!";
-    } else {
-        echo "Error updating room: " . $conn->error;
-    }
+// Fetch rooms from the database
+$rooms_query = "SELECT * FROM rooms";
+$rooms_result = mysqli_query($conn, $rooms_query);
+if (!$rooms_result) {
+    die("Error fetching rooms: " . mysqli_error($conn));
 }
 ?>
 
-<form action="" method="POST" enctype="multipart/form-data">
-    <label for="name">Room Name:</label>
-    <input type="text" name="name" value="<?php echo $room['name']; ?>" required><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Room</title>
+    <link rel="stylesheet" href="admin_style.css">
+</head>
+<body>
+    <!-- Header Start -->
+    <?php include 'admin_header.php'; ?>
+    <!-- Header End -->
 
-    <label for="description">Description:</label>
-    <textarea name="description" required><?php echo $room['description']; ?></textarea><br>
+    <div class="container">
+        <h1>Edit Rooms</h1>
 
-    <label for="price">Price:</label>
-    <input type="number" name="price" value="<?php echo $room['price']; ?>" required><br>
+        <!-- Rooms Section -->
+        <div>
+            <h2>Rooms</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Total Beds</th>
+                        <th>Total Baths</th>
+                        <th>Description</th>
+                        <th>Capacity</th>
+                        <th>Availability</th>
+                        <th>Total Rooms</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($room = mysqli_fetch_assoc($rooms_result)) { ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($room['room_name']); ?></td>
+                            <td><?php echo number_format($room['room_price'], 2); ?></td>
+                            <td><?php echo $room['tot_bed']; ?></td>
+                            <td><?php echo $room['tot_bath']; ?></td>
+                            <td><?php echo htmlspecialchars($room['room_description']); ?></td>
+                            <td><?php echo $room['room_capacity']; ?></td>
+                            <td><?php echo $room['room_availability']; ?></td> <!-- Display room_availability from the database -->
+                            <td><?php echo $room['room_tot']; ?></td>
+                            <td>
+                                <a href="edit_room_form.php?id=<?php echo $room['room_id']; ?>" class="edit">Edit</a>
+                                <a href="delete_room.php?id=<?php echo $room['room_id']; ?>" class="delete" onclick="return confirm('Are you sure you want to delete this room?');">Delete</a>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+            <a href="add_room.php" class="add">Add New Room</a>
+        </div>
 
-    <label for="availability">Availability:</label>
-    <input type="checkbox" name="availability" <?php echo $room['availability'] == 1 ? 'checked' : ''; ?>><br>
+        <!-- Room Images Section -->
+        <div>
+            <h2>Room Images</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Room Name</th>
+                        <th>Room Image</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    // Rewind the result pointer to fetch again from the start
+                    mysqli_data_seek($rooms_result, 0);
 
-    <label for="photo">Room Photo:</label>
-    <input type="file" name="photo"><br>
+                    while ($room = mysqli_fetch_assoc($rooms_result)) { ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($room['room_name']); ?></td>
+                            <td>
+                                <?php if ($room['room_image']) { ?>
+                                    <img src="../img/<?php echo htmlspecialchars($room['room_image']); ?>" alt="Room Image" style="max-width: 100px; max-height: 100px; object-fit: cover;">
+                                <?php } else { ?>
+                                    <p>No image available</p>
+                                <?php } ?>
+                            </td>
+                            <td>
+                                <a href="insert_image.php?id=<?php echo $room['room_id']; ?>" class="edit">Insert Image</a>
+                                <a href="javascript:void(0);" class="delete" onclick="confirmDelete(<?php echo $room['room_id']; ?>);">Delete Image</a>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
 
-    <button type="submit">Update Room</button>
-</form>
+    </div>
 
+    <footer>
+        <p>&copy; DTD3033 Class D - Group 8</p>
+    </footer>
+
+    <script>
+        function confirmDelete(roomId) {
+            if (confirm('Are you sure you want to delete this image?')) {
+                // Redirect to delete_image.php to handle image deletion
+                window.location.href = 'delete_image.php?id=' + roomId;
+            }
+        }
+    </script>
+</body>
+</html>

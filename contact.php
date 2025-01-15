@@ -2,13 +2,31 @@
 session_start();
 include 'db_connection.php'; // Ensure this file establishes the database connection
 
-// Fetch total number of rooms
-$sql = "SELECT SUM(room_tot) AS total_rooms FROM rooms";
-$result = $conn->query($sql);
-$total_rooms = 0;
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $subject = trim($_POST['subject']);
+    $message = trim($_POST['message']);
 
-if ($result && $row = $result->fetch_assoc()) {
-    $total_rooms = $row['total_rooms'];
+    // Insert data into the database
+    $sql = "INSERT INTO contact_form (cust_name, cust_email, cust_subject, cust_message) VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssss", $name, $email, $subject, $message);
+
+    if ($stmt->execute()) {
+        echo "<script>
+            alert('Message sent successfully!');
+            window.location.href = 'contact.php';
+        </script>";
+    } else {
+        echo "<script>
+            alert('Failed to send message. Please try again.');
+            window.location.href = 'contact.php';
+        </script>";
+    }
+
+    $stmt->close();
 }
 ?>
 
@@ -25,9 +43,6 @@ if ($result && $row = $result->fetch_assoc()) {
         <!-- Header Start -->
         <?php include 'header.php'; ?>
         <!-- Header End -->
-
-        <body>
-            <div class="container-xxl bg-white p-0">
 
         <!-- Contact Start -->
         <div class="container-xxl py-5">
@@ -61,29 +76,29 @@ if ($result && $row = $result->fetch_assoc()) {
                     </div>
                     <div class="col-md-6">
                         <div class="wow fadeInUp" data-wow-delay="0.2s">
-                            <form>
+                            <form method="POST" action="contact.php">
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                            <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required>
                                             <label for="name">Your Name</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="Your Email" required>
                                             <label for="email">Your Email</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                            <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject" required>
                                             <label for="subject">Subject</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 150px"></textarea>
+                                            <textarea class="form-control" placeholder="Leave a message here" id="message" name="message" style="height: 150px" required></textarea>
                                             <label for="message">Message</label>
                                         </div>
                                     </div>
@@ -99,15 +114,16 @@ if ($result && $row = $result->fetch_assoc()) {
         </div>
         <!-- Contact End -->
 
-                <!-- Footer Start -->
-                <?php include 'footer.php'; ?>
-                <!-- Footer End -->
+        <!-- Footer Start -->
+        <?php include 'footer.php'; ?>
+        <!-- Footer End -->
 
-                <!-- JavaScript Libraries -->
-                <?php include 'js_lib.php'; ?>
+        <!-- JavaScript Libraries -->
+        <?php include 'js_lib.php'; ?>
 
-                <!-- Template Javascript -->
-                <script src="js/main.js"></script>
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
+    </div>
 </body>
 
 </html>

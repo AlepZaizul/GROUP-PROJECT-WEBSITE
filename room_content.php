@@ -58,7 +58,8 @@ $result = $conn->query($sql);
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="room-item shadow rounded overflow-hidden">
                             <div class="position-relative">
-                                <img class="img-fluid" src="<?php echo $room['room_image']; ?>" alt="<?php echo $room['room_name']; ?>"> 
+                                <!-- Updated image source path -->
+                                <img class="img-fluid" src="img/<?php echo $room['room_image']; ?>" alt="<?php echo $room['room_name']; ?>"> 
                                 <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">RM<?php echo $room['room_price']; ?>/Night</small>
                             </div>
                             <div class="p-4 mt-2">
@@ -66,7 +67,7 @@ $result = $conn->query($sql);
                                     <h5 class="mb-0"><?php echo $room['room_name']; ?></h5>
                                     <div class="ps-2">
                                         <?php 
-                                            // You can implement a star rating system here based on your logic
+                                            // Star rating
                                             echo '<small class="fa fa-star text-primary"></small>'; 
                                             echo '<small class="fa fa-star text-primary"></small>'; 
                                             echo '<small class="fa fa-star text-primary"></small>'; 
@@ -97,3 +98,4 @@ $result = $conn->query($sql);
         </div>
     </div>
 </div>
+
