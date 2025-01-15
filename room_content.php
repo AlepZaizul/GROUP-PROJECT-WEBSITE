@@ -82,8 +82,7 @@ $result = $conn->query($sql);
                                 </div>
                                 <p class="text-body mb-3"><?php echo $room['room_description']; ?></p>
                                 <div class="d-flex justify-content-between">
-                                    <a class="btn btn-sm btn-primary rounded py-2 px-4" href="room_details.php?room_id=<?php echo $room['room_id']; ?>">View Detail</a> 
-                                    <a class="btn btn-sm btn-dark rounded py-2 px-4" href="<?php echo isset($_SESSION['username']) ? 'booking.php' : 'login.php'; ?>">Book Now</a>
+                                    <a class="btn btn-sm btn-dark rounded py-2 px-4" href="<?php echo isset($_SESSION['username']) ? 'booking.php?room_id='.$room['room_id'] : 'login.php'; ?>">Book Now</a>
                                 </div>
                             </div>
                         </div>

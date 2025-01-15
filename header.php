@@ -52,15 +52,16 @@
                                 <a href="service.php" class="nav-item nav-link <?php echo $currentPage === 'service.php' ? 'active' : ''; ?>">Services</a>
                                 <a href="about.php" class="nav-item nav-link <?php echo $currentPage === 'about.php' ? 'active' : ''; ?>">About</a>
                                 
+                                
+
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                     <div class="dropdown-menu rounded-0 m-0">
-                                        <a href="booking.html" class="dropdown-item">Booking</a>
-                                        <a href="team.html" class="dropdown-item">Our Team</a>
-                                        <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                    </div>
+                                        <a href="team.php" class="dropdown-item">Our Team</a>
+                                        <a href="contact.php" class="dropdown-item">Contact</a>
+                                    </div>                                 
                                 </div>
-                                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                                <a href="setting.php" class="nav-item nav-link <?php echo $currentPage === 'setting.php' ? 'active' : ''; ?>">Setting</a>
                             </div>
                         </div>
                     </nav>

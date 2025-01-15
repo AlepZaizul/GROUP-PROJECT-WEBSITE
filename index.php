@@ -70,10 +70,10 @@ session_start();
                     <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
                         <p>Penginapan yang selesa untuk seisi keluarga</p>
                         <div class="d-flex align-items-center">
-                            <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-1.jpg" style="width: 45px; height: 45px;">
+                        <img class="img-fluid flex-shrink-0 rounded" src="img/girl.JPG" style="width: 45px; height: 45px;">
                             <div class="ps-3">
-                                <h6 class="fw-bold mb-1">Muhammad Abdul</h6>
-                                <small>Profession</small>
+                                <h6 class="fw-bold mb-1">Nur Syahira</h6>
+                                <small>nursyahira02@gmail.com</small>
                             </div>
                         </div>
                         <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
@@ -81,20 +81,20 @@ session_start();
                     <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
                         <p>Bilik hotel selesa, bersih, fasiliti yang dijaga dengan baik, sangat recommend untuk keluarga atau pun pengembara</p>
                         <div class="d-flex align-items-center">
-                            <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-2.jpg" style="width: 45px; height: 45px;">
+                            <img class="img-fluid flex-shrink-0 rounded" src="img/boy.JPG" style="width: 45px; height: 45px;">
                             <div class="ps-3">
-                                <h6 class="fw-bold mb-1">Client Name</h6>
-                                <small>Profession</small>
+                                <h6 class="fw-bold mb-1">Zulfaridh Osman</h6>
+                                <small>yedosman@gmail.com</small>
                             </div>
                         </div>
                         <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
                     </div>
                     <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
-                        <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd et erat magna eos</p>
+                        <p>friendly staff, comfortable accommodation, reasonable price</p>
                         <div class="d-flex align-items-center">
-                            <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-3.jpg" style="width: 45px; height: 45px;">
+                            <img class="img-fluid flex-shrink-0 rounded" src="img/boy.JPG" style="width: 45px; height: 45px;">
                             <div class="ps-3">
-                                <h6 class="fw-bold mb-1">Client Name</h6>
+                                <h6 class="fw-bold mb-1">Lim Jia Jin</h6>
                                 <small>Profession</small>
                             </div>
                         </div>
