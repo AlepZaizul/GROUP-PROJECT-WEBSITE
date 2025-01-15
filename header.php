@@ -43,15 +43,15 @@
                         </button>
                         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                             <div class="navbar-nav mr-auto py-0">
+
                                 <?php // Get the current file name (e.g., "index.php", "about.php")
                                 $currentPage = basename($_SERVER['PHP_SELF']);
                                 ?>
-
                                 <a href="index.php" class="nav-item nav-link <?php echo $currentPage === 'index.php' ? 'active' : ''; ?>">Home</a>
-                                <a href="about.php" class="nav-item nav-link <?php echo $currentPage === 'about.php' ? 'active' : ''; ?>">About</a>
-                                <a href="service.php" class="nav-item nav-link <?php echo $currentPage === 'service.php' ? 'active' : ''; ?>">Services</a>
                                 <a href="room.php" class="nav-item nav-link <?php echo $currentPage === 'room.php' ? 'active' : ''; ?>">Rooms</a>
-
+                                <a href="service.php" class="nav-item nav-link <?php echo $currentPage === 'service.php' ? 'active' : ''; ?>">Services</a>
+                                <a href="about.php" class="nav-item nav-link <?php echo $currentPage === 'about.php' ? 'active' : ''; ?>">About</a>
+                                
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                     <div class="dropdown-menu rounded-0 m-0">

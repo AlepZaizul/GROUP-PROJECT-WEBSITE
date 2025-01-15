@@ -1,6 +1,9 @@
 <?php
 session_start();
-unset($_SESSION["id"]);
-unset($_SESSION["name"]);
-header("Location:login.php");
+session_unset();  // Remove all session variables
+session_destroy(); // Destroy the session
+
+// Redirect to the homepage after logout
+header('Location: index.php');
+exit;
 ?>
