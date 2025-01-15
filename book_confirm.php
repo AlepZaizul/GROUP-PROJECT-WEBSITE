@@ -91,15 +91,15 @@ $total_price = $room_price * $total_days;
                         <!-- Address, Phone, State -->
                         <div class="form-group mb-3">
                             <label for="state">State</label>
-                            <input type="text" class="form-control" id="state" value="<?php echo htmlspecialchars($user_details['state']); ?>" readonly>
+                            <input type="text" class="form-control" id="state" value="<?php echo htmlspecialchars($user_details['state']); ?>" disabled>
                         </div>
                         <div class="form-group mb-3">
                             <label for="address">Address</label>
-                            <input type="text" class="form-control" id="address" value="<?php echo htmlspecialchars($user_details['address']); ?>" readonly>
+                            <input type="text" class="form-control" id="address" value="<?php echo htmlspecialchars($user_details['address']); ?>" disabled>
                         </div>
                         <div class="form-group mb-3">
                             <label for="phone">Phone Number</label>
-                            <input type="text" class="form-control" id="phone" value="<?php echo htmlspecialchars($user_details['phone']); ?>" readonly>
+                            <input type="text" class="form-control" id="phone" value="<?php echo htmlspecialchars($user_details['phone']); ?>" disabled>
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@ $total_price = $room_price * $total_days;
                         <!-- Payment Method Selection -->
                         <div class="form-group mb-3">
                             <label for="payment_method">Select Payment Method:</label>
-                            <select class="form-control" id="payment_method" name="payment_method" onchange="showPaymentDetails(this.value)">
+                            <select class="form-control" id="payment_method" name="payment_method" onchange="showPaymentDetails(this.value)" required>
                                 <option value="" selected>Select Your Payment Method</option>    
                                 <option value="credit_debit_card">Credit/Debit Card</option>
                                 <option value="ewallet">E-wallet</option>
@@ -150,6 +150,11 @@ $total_price = $room_price * $total_days;
                                     <option value="grab_pay">GrabPay</option>
                                 </select>
                             </div>
+
+                            <div class="form-group mb-3">
+                                <label for="tng_number">Enter your E-wallet phone number</label>
+                                <input type="text" class="form-control" id="tng_number" name="tng_number">
+                            </div>
                         </div>
 
                         <!-- Online Transfer Bank Options -->
@@ -180,6 +185,7 @@ $total_price = $room_price * $total_days;
                             <input type="hidden" name="children" value="<?php echo $children; ?>">
                             <input type="hidden" name="special_request" value="<?php echo $special_request; ?>">
                             <input type="hidden" name="total_price" value="<?php echo $total_price; ?>">
+                            <input type="hidden" name="payment_method" id="payment_method_input" value="">
 
                             <button type="submit" class="btn btn-primary py-3 px-5">Confirm Booking</button>
                         </form>
@@ -196,9 +202,16 @@ $total_price = $room_price * $total_days;
 
                 <!-- Template Javascript -->
                 <script src="js/main.js"></script>
+                <script>
+                    // Add payment method to hidden input
+                    document.getElementById("payment_method").addEventListener("change", function() {
+                        document.getElementById("payment_method_input").value = this.value;
+                    });
+                </script>
             </div>
         </div>
     </div>
 </body>
 
 </html>
+
