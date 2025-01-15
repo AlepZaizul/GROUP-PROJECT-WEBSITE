@@ -40,6 +40,21 @@ $total_price = $room_price * $total_days;
 
 <head>
     <?php include 'head_class.php'; ?>
+    <script>
+        function showPaymentDetails(paymentMethod) {
+            document.getElementById("cardDetails").style.display = 'none';
+            document.getElementById("ewalletOptions").style.display = 'none';
+            document.getElementById("bankOptions").style.display = 'none';
+
+            if (paymentMethod == "credit_debit_card") {
+                document.getElementById("cardDetails").style.display = 'block';
+            } else if (paymentMethod == "ewallet") {
+                document.getElementById("ewalletOptions").style.display = 'block';
+            } else if (paymentMethod == "online_transfer") {
+                document.getElementById("bankOptions").style.display = 'block';
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -76,15 +91,15 @@ $total_price = $room_price * $total_days;
                         <!-- Address, Phone, State -->
                         <div class="form-group mb-3">
                             <label for="state">State</label>
-                            <input type="text" class="form-control" id="state" value="<?php echo htmlspecialchars($user_details['state']); ?>">
+                            <input type="text" class="form-control" id="state" value="<?php echo htmlspecialchars($user_details['state']); ?>" readonly>
                         </div>
                         <div class="form-group mb-3">
                             <label for="address">Address</label>
-                            <input type="text" class="form-control" id="address" value="<?php echo htmlspecialchars($user_details['address']); ?>">
+                            <input type="text" class="form-control" id="address" value="<?php echo htmlspecialchars($user_details['address']); ?>" readonly>
                         </div>
                         <div class="form-group mb-3">
                             <label for="phone">Phone Number</label>
-                            <input type="text" class="form-control" id="phone" value="<?php echo htmlspecialchars($user_details['phone']); ?>">
+                            <input type="text" class="form-control" id="phone" value="<?php echo htmlspecialchars($user_details['phone']); ?>" readonly>
                         </div>
                     </div>
                 </div>
@@ -94,6 +109,66 @@ $total_price = $room_price * $total_days;
                 <div class="row justify-content-center mb-5">
                     <div class="col-lg-6 text-center">
                         <h2><strong>Total Price: RM<?php echo number_format($total_price, 2); ?></strong></h2>
+                        
+                        <!-- Payment Method Selection -->
+                        <div class="form-group mb-3">
+                            <label for="payment_method">Select Payment Method:</label>
+                            <select class="form-control" id="payment_method" name="payment_method" onchange="showPaymentDetails(this.value)">
+                                <option value="" selected>Select Your Payment Method</option>    
+                                <option value="credit_debit_card">Credit/Debit Card</option>
+                                <option value="ewallet">E-wallet</option>
+                                <option value="online_transfer">Online Transfer</option>
+                            </select>
+                        </div>
+
+                        <!-- Credit/Debit Card Details -->
+                        <div id="cardDetails" style="display:none;">
+                            <h4>Enter Card Details</h4>
+                            <div class="form-group mb-3">
+                                <label for="card_number">Card Number</label>
+                                <input type="text" class="form-control" id="card_number" name="card_number">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="expiry_date">Expiry Date</label>
+                                <input type="text" class="form-control" id="expiry_date" name="expiry_date">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="cvv">CVV</label>
+                                <input type="text" class="form-control" id="cvv" name="cvv">
+                            </div>
+                        </div>
+
+                        <!-- E-wallet Options -->
+                        <div id="ewalletOptions" style="display:none;">
+                            <h4>Select E-wallet</h4>
+                            <div class="form-group mb-3">
+                                <label for="ewallet">Choose E-wallet:</label>
+                                <select class="form-control" id="ewallet" name="ewallet">
+                                    <option value="touch_n_go">Touch 'n Go</option>
+                                    <option value="boost">Boost</option>
+                                    <option value="shopee_pay">ShopeePay</option>
+                                    <option value="grab_pay">GrabPay</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Online Transfer Bank Options -->
+                        <div id="bankOptions" style="display:none;">
+                            <h4>Select Bank</h4>
+                            <div class="form-group mb-3">
+                                <label for="bank">Choose Bank:</label>
+                                <select class="form-control" id="bank" name="bank">
+                                    <option value="maybank">Maybank</option>
+                                    <option value="bank_islam">Bank Islam</option>
+                                    <option value="rhb">RHB</option>
+                                    <option value="bank_rakyat">Bank Rakyat</option>
+                                    <option value="cimb">CIMB</option>
+                                    <option value="public_bank">Public Bank</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Booking Form -->
                         <form action="book_payment.php" method="post">
                             <!-- Include all necessary form fields to process the booking -->
                             <input type="hidden" name="room_id" value="<?php echo $room_id; ?>">
@@ -104,6 +179,7 @@ $total_price = $room_price * $total_days;
                             <input type="hidden" name="adults" value="<?php echo $adults; ?>">
                             <input type="hidden" name="children" value="<?php echo $children; ?>">
                             <input type="hidden" name="special_request" value="<?php echo $special_request; ?>">
+                            <input type="hidden" name="total_price" value="<?php echo $total_price; ?>">
 
                             <button type="submit" class="btn btn-primary py-3 px-5">Confirm Booking</button>
                         </form>
