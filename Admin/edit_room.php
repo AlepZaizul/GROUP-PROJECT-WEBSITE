@@ -49,7 +49,15 @@ if (!$rooms_result) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($room = mysqli_fetch_assoc($rooms_result)) { ?>
+                    <?php while ($room = mysqli_fetch_assoc($rooms_result)) { 
+                        // Calculate available rooms based on room_tot and bookings
+                        // Assuming 'room_tot' is the total number of rooms and you want to subtract the number of booked rooms
+                        $total_rooms = $room['room_tot'];
+                        $booked_rooms_query = "SELECT COUNT(*) as booked_rooms FROM bookings WHERE room_id = {$room['room_id']}";
+                        $booked_rooms_result = mysqli_query($conn, $booked_rooms_query);
+                        $booked_rooms_data = mysqli_fetch_assoc($booked_rooms_result);
+                        $available_rooms = $total_rooms - $booked_rooms_data['booked_rooms'];
+                    ?>
                         <tr>
                             <td><?php echo htmlspecialchars($room['room_name']); ?></td>
                             <td><?php echo number_format($room['room_price'], 2); ?></td>
@@ -57,7 +65,7 @@ if (!$rooms_result) {
                             <td><?php echo $room['tot_bath']; ?></td>
                             <td><?php echo htmlspecialchars($room['room_description']); ?></td>
                             <td><?php echo $room['room_capacity']; ?></td>
-                            <td><?php echo $room['room_availability']; ?></td> <!-- Display room_availability from the database -->
+                            <td><?php echo $available_rooms; ?></td> <!-- Display available rooms -->
                             <td><?php echo $room['room_tot']; ?></td>
                             <td>
                                 <a href="edit_room_form.php?id=<?php echo $room['room_id']; ?>" class="edit">Edit</a>
@@ -97,7 +105,7 @@ if (!$rooms_result) {
                                 <?php } ?>
                             </td>
                             <td>
-                                <a href="insert_image.php?id=<?php echo $room['room_id']; ?>" class="edit">Insert Image</a>
+                                <a href="insert_image.php?id=<?php echo $room['room_id']; ?>" class="edit">Change Image</a>
                                 <a href="javascript:void(0);" class="delete" onclick="confirmDelete(<?php echo $room['room_id']; ?>);">Delete Image</a>
                             </td>
                         </tr>

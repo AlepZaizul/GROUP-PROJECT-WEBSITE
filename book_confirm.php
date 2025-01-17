@@ -114,7 +114,7 @@ $total_price = $room_price * $total_days;
                         <div class="form-group mb-3">
                             <label for="payment_method">Select Payment Method:</label>
                             <select class="form-control" id="payment_method" name="payment_method" onchange="showPaymentDetails(this.value)" required>
-                                <option value="" selected>Select Your Payment Method</option>    
+                                <option value="" selected disabled>Select Your Payment Method</option>    
                                 <option value="credit_debit_card">Credit/Debit Card</option>
                                 <option value="ewallet">E-wallet</option>
                                 <option value="online_transfer">Online Transfer</option>

@@ -159,3 +159,28 @@ button[type="submit"][name="submit"]:focus {
     outline: none; /* Remove outline on focus */
     box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); /* Green shadow on focus */
 }
+/* Match the styles of .delete (anchor) for button elements */
+form .delete {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0;
+    text-decoration: none;
+    color: #fff;
+    background-color: #e74c3c; /* Same red color as before */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect */
+form .delete:hover {
+    background-color: #c0392b; /* Darker red on hover */
+}
+
+/* Prevent button text selection */
+form .delete:focus {
+    outline: none;
+}

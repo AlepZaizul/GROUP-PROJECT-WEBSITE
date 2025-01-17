@@ -19,7 +19,7 @@ if (isset($_GET['delete'])) {
     $user_id = $_GET['delete'];
     $delete_query = "DELETE FROM users WHERE user_id = '$user_id'";
     if (mysqli_query($conn, $delete_query)) {
-        header("Location: manage_user.php");
+        header("Location: manage_users.php");
     } else {
         echo "Error deleting user: " . mysqli_error($conn);
     }
@@ -62,7 +62,8 @@ if (isset($_GET['delete'])) {
                             <td><?php echo htmlspecialchars($user['phone']); ?></td>
                             <td><?php echo htmlspecialchars($user['role']); ?></td>
                             <td>
-                                <a href="manage_user.php?delete=<?php echo $user['user_id']; ?>" class="delete" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                                <a href="edit_user.php?id=<?php echo $user['user_id']; ?>" class="edit">Edit</a>
+                                <a href="manage_users.php?delete=<?php echo $user['user_id']; ?>" class="delete" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
                             </td>
                         </tr>
                     <?php } ?>

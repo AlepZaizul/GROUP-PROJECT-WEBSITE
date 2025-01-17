@@ -2,6 +2,18 @@
 session_start();
 include 'db_connection.php'; // Ensure this file establishes the database connection
 
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    echo "<script>
+        alert('You must be logged in to send a message.');
+        window.location.href = 'login.php'; // Redirect to login page if not logged in
+    </script>";
+    exit;
+}
+
+// Retrieve the user_id from the session
+$user_id = $_SESSION['user_id'];
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name']);
@@ -10,9 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = trim($_POST['message']);
 
     // Insert data into the database
-    $sql = "INSERT INTO contact_form (cust_name, cust_email, cust_subject, cust_message) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO contact_form (user_id, cust_name, cust_email, cust_subject, cust_message) VALUES (?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssss", $name, $email, $subject, $message);
+    $stmt->bind_param("issss", $user_id, $name, $email, $subject, $message);
 
     if ($stmt->execute()) {
         echo "<script>
@@ -29,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

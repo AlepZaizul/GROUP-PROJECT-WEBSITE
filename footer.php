@@ -16,12 +16,6 @@
                         <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Jalan Utama, 35900 Tanjong Malim, Perak</p>
                         <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+010 883 2184</p>
                         <p class="mb-2"><i class="fa fa-envelope me-3"></i>grandtmhotel@gmail.com</p>
-                        <div class="d-flex pt-2">
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                        </div>
                     </div>
                     <div class="col-lg-5 col-md-12">
                         <div class="row gy-5 g-4">
